@@ -8,13 +8,6 @@ db = SQLAlchemy()
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 db.init_app(app)
 
-#engine = db.create_engine('sqlite:///project.db')
-#connection = engine.connect()
-#metadata = db.MetaData()
-
-#data = {1: {"name": "house1", "problems": "some_problem1"},
-#        2: {"name": "house2", "videos": "some_problem2"}}
-
 class test(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     adress = db.Column(db.String, nullable = False)
@@ -31,10 +24,11 @@ object = {1:{"adress": "golubinskaya", "state": "good", "admin":"gilishnik"},
 
 class App(Resource):
     def get(self, id):
-        if id == 0:
-            return object
-        else:
-            return object[id]
+        #take_obj = db.session.get(id)
+        take_obj = db.session.get(test, id)
+        print(take_obj.adress, take_obj.state, take_obj.admin)
+        print(type(take_obj.adress))
+        return {"adress": take_obj.adress, "state": take_obj.state, "admin": take_obj.admin}
 
     def delete(self, id):
         del object[id]
@@ -47,9 +41,10 @@ class App(Resource):
         parser.add_argument("admin", type=str)
         params = parser.parse_args()
         object[id] = params
-        test.adress = params["adress"]
-        test.state = params["state"]
-        test.admin = params["admin"]
+        new_test = test(adress = params["adress"],
+                        state = params["state"],
+                        admin = params["admin"])
+        db.session.add(new_test)
         db.session.commit()
         return object
 
@@ -58,11 +53,6 @@ class App(Resource):
 
 api.add_resource(App, "/obj/<int:id>")
 api.init_app(app)
-
-#@app.route("/")
-#def hello():
-#    return "Hello, World!"
-
 
     
 if __name__ == "__main__":
