@@ -17,10 +17,6 @@ class test(db.Model):
 with app.app_context():
    db.create_all()
 
-#metadata.create_all(engine)
-object = {1:{"adress": "golubinskaya", "state": "good", "admin":"gilishnik"},
-          2:{"adress": "golubinskaya22", "state": "good222", "admin":"gilishnik321312"},
-          3:{"adress": "golubinskaya33", "state": "good31231", "admin":"gilishnik33333"}}
 
 class App(Resource):
     def get(self, id):
@@ -47,8 +43,6 @@ class App(Resource):
         db.session.add(new_test)
         db.session.commit()
         return object
-
-
 
 
 api.add_resource(App, "/obj/<int:id>")
