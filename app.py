@@ -5,14 +5,14 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 api = Api()
 db = SQLAlchemy()         
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///buildings.db"
 db.init_app(app)
 
-class test(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    adress = db.Column(db.String, nullable = False)
-    state = db.Column(db.String, nullable = False)
-    admin = db.Column(db.String, nullable = False)
+#class test(db.Model):
+#    id = db.Column(db.Integer, primary_key=True)
+#    adress = db.Column(db.String, nullable = False)
+#    state = db.Column(db.String, nullable = False)
+#    admin = db.Column(db.String, nullable = False)
 
 with app.app_context():
    db.create_all()
@@ -20,7 +20,6 @@ with app.app_context():
 
 class App(Resource):
     def get(self, id):
-        #take_obj = db.session.get(id)
         take_obj = db.session.get(test, id)
         print(take_obj.adress, take_obj.state, take_obj.admin)
         print(type(take_obj.adress))
@@ -36,13 +35,12 @@ class App(Resource):
         parser.add_argument("state", type=str)
         parser.add_argument("admin", type=str)
         params = parser.parse_args()
-        object[id] = params
         new_test = test(adress = params["adress"],
                         state = params["state"],
                         admin = params["admin"])
         db.session.add(new_test)
         db.session.commit()
-        return object
+        return 200
 
 
 api.add_resource(App, "/obj/<int:id>")
