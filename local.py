@@ -12,6 +12,10 @@ elif num == 2:
     st = str(input("Input the state of object: "))
     adm = str(input("Input the name of admin of object: "))
     test3 = requests.post("http://127.0.0.1:3000/obj/4", json = {"adress": adr, "state": st, "admin": adm})
+elif num == 3:
+    lg = str(input("Input the login: "))
+    ps = str(input("Input the password: "))
+    log = requests.post("http://127.0.0.1:3000/obj/4", json = {"login": lg, "password": ps})
 else:
     print("Error")
 
