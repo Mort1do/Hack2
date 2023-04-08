@@ -1,6 +1,10 @@
 from flask import Flask, request
 from flask_restful import Api, Resource, reqparse
 from flask_sqlalchemy import SQLAlchemy
+from Users import users
+from WorkGroups import work_groups
+from WorkProcess import workprocess
+from Objects import objects
 
 app = Flask(__name__)
 api = Api()
@@ -20,27 +24,28 @@ with app.app_context():
 
 class App(Resource):
     def get(self, id):
-        take_obj = db.session.get(test, id)
-        print(take_obj.adress, take_obj.state, take_obj.admin)
+        user = users()
+        take_obj = db.session.get(user, id)
+        print(take_obj.login, take_obj.password)
         print(type(take_obj.adress))
-        return {"adress": take_obj.adress, "state": take_obj.state, "admin": take_obj.admin}
+        return {"login": take_obj.login, "password": take_obj.password}
 
     def delete(self, id):
         del object[id]
         return object
 
-    def post(self, id):
-        parser = reqparse.RequestParser()
-        parser.add_argument("adress", type=str)
-        parser.add_argument("state", type=str)
-        parser.add_argument("admin", type=str)
-        params = parser.parse_args()
-        new_test = test(adress = params["adress"],
-                        state = params["state"],
-                        admin = params["admin"])
-        db.session.add(new_test)
-        db.session.commit()
-        return 200
+    #def post(self, id):
+    #    parser = reqparse.RequestParser()
+    #    parser.add_argument("adress", type=str)
+    #    parser.add_argument("state", type=str)
+    #    parser.add_argument("admin", type=str)
+    #    params = parser.parse_args()
+    #    new_test = test(adress = params["adress"],
+    #                    state = params["state"],
+    #                    admin = params["admin"])
+    #    db.session.add(new_test)
+    #    db.session.commit()
+    #    return 200
 
 
 api.add_resource(App, "/obj/<int:id>")

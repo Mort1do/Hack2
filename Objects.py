@@ -1,4 +1,4 @@
-from app import db
+from main import db
 
 class objects(db.Model):
     id = db.Column(db.Integer, primary_key = True)

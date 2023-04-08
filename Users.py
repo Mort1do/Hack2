@@ -1,4 +1,4 @@
-from app import db
+from main import db
 
 
 class users(db.Model):
@@ -10,4 +10,11 @@ class users(db.Model):
     work_group = db.Column(db.Integer, db.ForeignKey('workgroups.id'))
 
     def __repr__(self):
-        return f"<users {self.id}>"
+        return f"<users {self.user_id}>"
+
+    def __init__(self): #, user_id, login, password):
+        #self.user_id = user_id
+        #self.login = login
+        #self.password = password
+
+
