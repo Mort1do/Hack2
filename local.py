@@ -15,7 +15,7 @@ elif num == 2:
 elif num == 3:
     lg = str(input("Input the login: "))
     ps = str(input("Input the password: "))
-    log = requests.post("http://127.0.0.1:3000/obj/4", json = {"login": lg, "password": ps})
+    log = requests.post("http://127.0.0.1:3000/obj/log", json = {"login": lg, "password": ps})
 else:
     print("Error")
 
